@@ -1,4 +1,4 @@
-﻿import { ATTACK, HEAL, RANGED_ATTACK } from "game/constants";
+﻿import { ATTACK, HEAL, RANGED_ATTACK, ERR_NOT_IN_RANGE } from "game/constants";
 import { BodyPart, Flag } from "arena";
 import { Creep, GameObject, StructureTower } from "game/prototypes";
 import { getDirection, getObjectsByPrototype, getRange, getTicks } from "game/utils";
@@ -66,7 +66,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps)
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(enemyCreeps.length > 0)
     {
-        if(!creep.rangedAttack(enemyCreeps[0]))
+        if(ERR_NOT_IN_RANGE == creep.rangedAttack(enemyCreeps[0]))
         {
             creep.moveTo(enemyCreeps[0]);
         }
