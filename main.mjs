@@ -47,9 +47,16 @@ export function loop() {
     }
 }
 
-function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag)
+function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, myHealers)
 {
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    if(i.hits < i.hitsMax/2 && myHealers.length > 0)
+    {
+        creep.moveTo(myHealers[0]);
+        return;
+    }
+
     if(enemyCreeps.length > 0)
     {
         creep.attack(enemyCreeps[0]);
@@ -68,15 +75,11 @@ function rangedAttacker(creep, enemyCreeps, myCreeps)
     {
         if(ERR_NOT_IN_RANGE == creep.rangedAttack(enemyCreeps[0]))
         {
-            creep.moveTo(enemyCreeps[0]);
-        }
-    }
-    else
-    {
-        myCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-        if(myCreeps.length > 1)
-        {
-            creep.moveTo(myCreeps[1]);
+            myCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+            if(myCreeps.length > 1)
+            {
+                creep.moveTo(myCreeps[1]);
+            }
         }
     }
 
