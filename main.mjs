@@ -19,6 +19,7 @@ export function loop() {
     {
         myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
         myCreeps[0].moveTo(part);
+        delete myCreeps[0];
     }
 
     myCreeps.forEach(creep => {
@@ -65,7 +66,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps)
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(enemyCreeps.length > 0)
     {
-        creep.attack(enemyCreeps[0]);
+        creep.rangedAttack(enemyCreeps[0]);
         creep.moveTo(enemyCreeps[0]);
     }
     else
@@ -97,9 +98,9 @@ function healer(creep, meleeCreeps, rangedCreeps)
     }
 
     meleeCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(meleeCreeps.length > 1)
+    if(meleeCreeps.length > 0)
     {
-        creep.moveTo(meleeCreeps[1]);
+        creep.moveTo(meleeCreeps[0]);
     }
 
 }
