@@ -66,8 +66,10 @@ function rangedAttacker(creep, enemyCreeps, myCreeps)
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(enemyCreeps.length > 0)
     {
-        creep.rangedAttack(enemyCreeps[0]);
-        creep.moveTo(enemyCreeps[0]);
+        if(!creep.rangedAttack(enemyCreeps[0]))
+        {
+            creep.moveTo(enemyCreeps[0]);
+        }
     }
     else
     {
