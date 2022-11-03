@@ -37,7 +37,7 @@ export function loop() {
     
     var enemyCreeps = getObjectsByPrototype(Creep).filter(object => !object.my);
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, healCreeps));
-    rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps));
+    rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps));
     healCreeps.forEach(creep => healer(creep, attackCreeps, rangedCreeps));
 
     var myTowers = getObjectsByPrototype(StructureTower).filter(object => object.my);
@@ -69,7 +69,7 @@ function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, myHealers)
     }
 }
 
-function rangedAttacker(creep, enemyCreeps, myCreeps)
+function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
 {    
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
