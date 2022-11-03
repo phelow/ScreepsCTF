@@ -53,8 +53,8 @@ function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, myHealers)
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(creep.hits < creep.hitsMax/1.3 && myHealers.length > 0)
     {
-        creep.attack(enemyCreeps[0]);
         creep.moveTo(myHealers[0]);
+        creep.attack(enemyCreeps[0]);
         return;
     }
 
@@ -75,8 +75,8 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(creep.hits < creep.hitsMax/1.3 && myHealers.length > 0)
     {
-        creep.rangedAttack(enemyCreeps[0]);
         creep.moveTo(myHealers[0]);
+        creep.rangedAttack(enemyCreeps[0]);
         return;
     }
 
