@@ -36,7 +36,7 @@ export function loop() {
 
     
     var enemyCreeps = getObjectsByPrototype(Creep).filter(object => !object.my);
-    attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag));
+    attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, healCreeps));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, myCreeps));
     healCreeps.forEach(creep => healer(creep, attackCreeps, rangedCreeps));
 
