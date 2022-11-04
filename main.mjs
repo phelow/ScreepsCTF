@@ -38,17 +38,6 @@ export function loop() {
 
     // get closest creep to the flag
     var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
-    var confidence = 0;
-    for(var creep of myCreeps)
-    {
-        confidence = confidence - (100 - getRange(myFlag, creep));
-    }
-    
-    enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-    for(var creep of enemyCreeps)
-    {
-        confidence = confidence + (100 - getRange(myFlag, creep));
-    }
 
     
     attackCreeps.sort((a, b) => a.hits - b.hits);
@@ -65,8 +54,12 @@ export function loop() {
         }
     }
 
-    if(confidence < 0 && enemyCreeps.Length > 0 && attackCreeps.Length > 0)
+    
+    enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
+    myCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
+    if(getRange(enemyCreeps[0], myFlag) < getRange(myCreeps[0], myFlag) && attackCreeps.Length > 0)
     {
+        console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, enemyCreeps[0]) - getRange(b, enemyCreeps[0]));    
         attackCreeps[0].moveTo(enemyCreeps[0]);
         attackCreeps.shift();
