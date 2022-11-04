@@ -181,13 +181,13 @@ function towerProd(tower, enemyCreeps, myCreeps) {
         return;
     }
 
-    const healTarget = myCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
+    const distanceHealTarget = myCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
 
     //TODO: attack enemy creeps
 
-    if (healTarget.length > 0)
+    if (distanceHealTarget.length > 0)
     {
-        tower.heal(healTarget[0])
+        tower.heal(distanceHealTarget[0])
         return;
     }
 }
