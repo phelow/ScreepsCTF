@@ -19,7 +19,7 @@ export function loop() {
     {
         myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
         myCreeps[0].moveTo(part);
-        delete myCreeps[0];
+        myCreeps.shift();
     }
 
     myCreeps.forEach(creep => {
@@ -33,9 +33,45 @@ export function loop() {
             healCreeps.push(creep)
         }
     });
-
     
     var enemyCreeps = getObjectsByPrototype(Creep).filter(object => !object.my);
+
+    // get closest creep to the flag
+    var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
+    var confidence = 0;
+    for(var creep of myCreeps)
+    {
+        confidence = confidence - (100 - getRange(myFlag, creep));
+    }
+    
+    enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
+    for(var creep of enemyCreeps)
+    {
+        confidence = confidence + (100 - getRange(myFlag, creep));
+    }
+
+    
+    attackCreeps.sort((a, b) => a.hits - b.hits);
+    for(var creep of attackCreeps)
+    {
+        if(creep.hits < creep.hitsMax/1.3 && healCreeps.length > 0)
+        {
+            enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+            healCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+            creep.moveTo(healCreeps[0]);
+            creep.attack(enemyCreeps[0]);
+            attackCreeps.shift();
+            break;
+        }
+    }
+
+    if(confidence < 0 && enemyCreeps.Length > 0 && attackCreeps.Length > 0)
+    {
+        attackCreeps.sort((a, b) => getRange(a, enemyCreeps[0]) - getRange(b, enemyCreeps[0]));    
+        attackCreeps[0].moveTo(enemyCreeps[0]);
+        attackCreeps.shift();
+    }
+
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, healCreeps));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps));
     healCreeps.forEach(creep => healer(creep, attackCreeps, rangedCreeps));
@@ -126,6 +162,8 @@ function healer(creep, meleeCreeps, rangedCreeps)
 function towerProd(tower, enemyCreeps, myCreeps) {
     const target = tower.findInRange(enemyCreeps, 5)
     const healTarget = myCreeps.filter(i => getRange(i, tower) < 51 && i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
+
+    //TODO: attack enemy creeps
 
     if (target.length > 0) 
     {
