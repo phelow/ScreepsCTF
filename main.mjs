@@ -168,9 +168,26 @@ function towerProd(tower, enemyCreeps, myCreeps) {
     if (target.length > 0) 
     {
         tower.attack(target[0])
+        return;
     }
     else if (healTarget.length > 0)
     {
         tower.heal(healTarget[0])
+        return;
+    }
+    
+    if(tower.energy < tower.energyCapacity)
+    {
+        return;
+    }
+
+    const healTarget = myCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
+
+    //TODO: attack enemy creeps
+
+    if (healTarget.length > 0)
+    {
+        tower.heal(healTarget[0])
+        return;
     }
 }
