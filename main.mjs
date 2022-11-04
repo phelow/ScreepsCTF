@@ -61,6 +61,7 @@ export function loop() {
     {
         console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, enemyCreeps[0]) - getRange(b, enemyCreeps[0]));    
+        attackCreeps[0].attack(enemyCreeps[0]);
         attackCreeps[0].moveTo(enemyCreeps[0]);
         attackCreeps.shift();
     }
