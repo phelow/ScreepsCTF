@@ -48,7 +48,8 @@ export function loop() {
     
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
     attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
-    if(attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 5 && getRange(attackCreeps[0], myFlag) > 0)
+    var defensive = attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 5; 
+    if(defensive && getRange(attackCreeps[0], myFlag) > 0)
     {
         console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));    
@@ -66,7 +67,7 @@ export function loop() {
         }
     }
 
-    attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, healCreeps));
+    attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, healCreeps, defensive));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps));
     healCreeps.forEach(creep => healer(creep, attackCreeps, rangedCreeps));
 
@@ -77,7 +78,7 @@ export function loop() {
     }
 }
 
-function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, myHealers)
+function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensive)
 {
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
@@ -92,6 +93,10 @@ function meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, myHealers)
     {
         creep.attack(enemyCreeps[0]);
         creep.moveTo(enemyCreeps[0]);
+    }
+    else if (defensive)
+    {
+        creep.moveTo(myFlag);
     }
     else
     {
@@ -140,17 +145,19 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
 function healer(creep, meleeCreeps, rangedCreeps)
 {
     // Find nearest friendly creep
-    for(var targetCreep of meleeCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep)))
+    var healableMelees = meleeCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    if(healableMelees.length > 0)
     {
-        creep.heal(targetCreep);
-        creep.moveTo(targetCreep);
+        creep.heal(healableMelees[0]);
+        creep.moveTo(healableMelees[0]);
         return;
     }
 
-    for(var targetCreep of rangedCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep)))
+    var healableRangeds = rangedCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    if(healableRangeds.length > 0)
     {
-        creep.heal(targetCreep);
-        creep.moveTo(targetCreep);
+        creep.heal(healableRangeds[0]);
+        creep.moveTo(healableRangeds[0]);
         return;
     }
 
