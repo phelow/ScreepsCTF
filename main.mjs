@@ -57,7 +57,7 @@ export function loop() {
     
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
     attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-    if(attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 20)
+    if(attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 20 && getRange(attackCreeps[0], myFlag) > 0)
     {
         console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));    
