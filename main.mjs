@@ -82,7 +82,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
 {
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(creep.hits < creep.hitsMax/1.2 && myHealers.length > 0)
+    if(creep.hits < creep.hitsMax/1.5 && myHealers.length > 0)
     {
         creep.moveTo(myHealers[0]);
         creep.attack(enemyCreeps[0]);
