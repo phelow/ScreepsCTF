@@ -13,15 +13,6 @@ export function loop() {
     var rangedCreeps = [];
     var healCreeps = [];
 
-    
-    var parts = getObjectsByPrototype(BodyPart);
-    for(var part of parts)
-    {
-        myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
-        myCreeps[0].moveTo(part);
-        myCreeps.shift();
-    }
-
     myCreeps.forEach(creep => {
         if (creep.body.some(i => i.type === ATTACK)) {
             attackCreeps.push(creep)
@@ -56,13 +47,23 @@ export function loop() {
 
     
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-    attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-    if(attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 20 && getRange(attackCreeps[0], myFlag) > 0)
+    attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
+    if(attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 5 && getRange(attackCreeps[0], myFlag) > 0)
     {
         console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));    
         attackCreeps[0].moveTo(myFlag);
         attackCreeps.shift();
+    }
+    else
+    {       
+        var parts = getObjectsByPrototype(BodyPart);
+        for(var part of parts)
+        {
+            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
+            myCreeps[0].moveTo(part);
+            myCreeps.shift();
+        }
     }
 
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, myCreeps, enemyFlag, healCreeps));
