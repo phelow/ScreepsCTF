@@ -91,8 +91,10 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
 
     if(enemyCreeps.length > 0)
     {
-        creep.attack(enemyCreeps[0]);
-        creep.moveTo(enemyCreeps[0]);
+        if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]))
+        {
+            creep.moveTo(enemyCreeps[0]);
+        }
     }
     else if (defensive)
     {
