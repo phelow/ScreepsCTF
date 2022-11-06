@@ -107,12 +107,18 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(enemyCreeps.length > 0)
     {
-        if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]))
+        if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]) && creep.hits == creep.hitsMax)
         {
             creep.moveTo(enemyCreeps[0]);
         }
     }
-    else if (defensive)
+    
+    if(creep.hits < creep.hitsMax)
+    {
+        creep.moveTo(myHealers[0]);
+    }
+    
+    if (defensive)
     {
         creep.moveTo(myFlag);
     }
