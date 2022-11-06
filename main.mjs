@@ -67,7 +67,12 @@ export function loop() {
     
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
     rangedCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
-    var enemyRangeToFlag = getRange(enemyCreeps[0], myFlag);
+    var enemyRangeToFlag = 1000;
+    if(enemyCreeps.length > 0)
+    {
+        enemyRangeToFlag = getRange(enemyCreeps[0], myFlag);
+    
+    }
     defensive = defensive | rangedCreeps.length > 0 && enemyCreeps.length > 0 && enemyRangeToFlag < getRange(rangedCreeps[0], myFlag); 
     if(defensive)
     {
