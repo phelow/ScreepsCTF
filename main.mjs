@@ -16,6 +16,11 @@ export function loop() {
     var healCreeps = [];
     var defensive = false;
     myCreeps.forEach(creep => {
+        if(creep.hits < creep.hitsMax * .8)
+        {
+            defensive = true;
+        }
+
         if (creep.body.some(i => i.type === ATTACK)) {
             attackCreeps.push(creep)
         }
