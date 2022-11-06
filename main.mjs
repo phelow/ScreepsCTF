@@ -15,6 +15,15 @@ export function loop() {
     var rangedCreeps = [];
     var healCreeps = [];
     var defensive = false;
+    
+    var parts = getObjectsByPrototype(BodyPart);
+    for(var part of parts)
+    {
+        myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
+        myCreeps[0].moveTo(part);
+        myCreeps.shift();
+    }
+
     myCreeps.forEach(creep => {
         if(creep.hits < creep.hitsMax * .9)
         {
@@ -38,29 +47,36 @@ export function loop() {
     var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
 
     
-    attackCreeps.sort((a, b) => a.hits - b.hits);
     for(var creep of attackCreeps)
     {
-        if(creep.hits < creep.hitsMax/healCoef && healCreeps.length > 0 && getRange(attackCreeps[0], myFlag) > 3)
+        if(creep.hits < creep.hitsMax/healCoef && getRange(attackCreeps[0], myFlag) > 3)
         {
             enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-            healCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
 
             if(creep.hits < creep.hitsMax * .7)
             {
                 defensive = true;
-                if(healCreeps.length > 0 && getRange(healCreeps[0], creep) > 2)
-                {
-                    creep.moveTo(healCreeps[0]);
-                }   
-                else
-                {
-                    creep.moveTo(myFlag);
-                }
+                creep.moveTo(myFlag);
             }
             creep.attack(enemyCreeps[0]);
             attackCreeps.shift();
-            break;
+        }
+
+    }
+
+    for(var creep of rangedCreeps)
+    {
+        if(creep.hits < creep.hitsMax/healCoef && getRange(rangedCreeps[0], myFlag) > 3)
+        {
+            enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+
+            if(creep.hits < creep.hitsMax * .7)
+            {
+                defensive = true;
+                creep.moveTo(myFlag);
+            }
+            creep.rangedAttack(enemyCreeps[0]);
+            rangedCreeps.shift();
         }
     }
 
@@ -112,18 +128,6 @@ export function loop() {
         }
         enemyIndex = enemyIndex + 1;
         meleeIndex = meleeIndex + 1;
-    }
-    
-    if(!defensive)
-    {       
-        var parts = getObjectsByPrototype(BodyPart);
-        for(var part of parts)
-        {
-            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
-            myCreeps[0].moveTo(part);
-            myCreeps.shift();
-            defensive = true;
-        }
     }
 
     if(enemyCreeps.length == 0)
@@ -221,7 +225,6 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
 
     if(defensive)
     {
-        creep.moveTo(myFlag);
         return;
     }    
 
