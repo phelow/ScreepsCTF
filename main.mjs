@@ -313,8 +313,8 @@ function healer(creep, myCreeps, myHealers, myFlag, enemyFlag, defensive)
         return;
     }
 
-    myCreeps.filter(i => i.body.some(i => i.type === HEAL)).sort((a, b) => getRange(a, creep) - getRange(b, creep))
-
+    myCreeps.filter(i => !i.body.some(i => i.type == HEAL)).sort((a, b) => getRange(a, creep) - getRange(b, creep))
+    console.log(myCreeps[0]);
     creep.moveTo(myCreeps[0]);
     
 }
