@@ -72,7 +72,7 @@ export function loop() {
             rangedCreeps[0].moveTo(myFlag);    
             
             enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
-            rangedCreeps[0].attack(enemyCreeps[0]);
+            rangedCreeps[0].rangedAttack(enemyCreeps[0]);
             rangedCreeps.shift();
             
             enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
