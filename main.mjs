@@ -200,10 +200,20 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     var confidence = 0;
     for(var friendlyCreep of myCreeps)
     {
-        confidence += 14 - getRange(creep, friendlyCreep); 
+        confidence = confidence + 30 - getRange(creep, friendlyCreep); 
     }
 
-    if(confidence > 10)
+    
+    for(var enemyCreep of enemyCreeps)
+    {
+        var creepRange = getRange(enemyCreep, creep);
+        if(creepRange < 20)
+        {
+            confidence = confidence - 20 + creepRange;
+        }
+    }
+
+    if(confidence > 0)
     {
         creep.moveTo(enemyFlag);
     }
