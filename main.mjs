@@ -121,6 +121,7 @@ export function loop() {
                 enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
                 rangedCreeps[0].rangedAttack(enemyCreeps[0]);
                 rangedCreeps.shift();
+                enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
                 continue;
             }
 
@@ -146,7 +147,7 @@ export function loop() {
     attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
     while(attackCreeps.length > meleeIndex && enemyCreeps.length > enemyIndex)
     {
-        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(attackCreeps[0], myFlag) + 30)
+        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(attackCreeps[0], myFlag) + 20)
         {
             defensive = true;
             console.log("retreating attack" + enemyIndex); 
