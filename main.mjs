@@ -72,7 +72,7 @@ export function loop() {
 
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, healCreeps, defensive));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps));
-    healCreeps.forEach(creep => healer(creep, attackCreeps, rangedCreeps, myFlag));
+    healCreeps.forEach(creep => healer(creep, myCreeps, myFlag));
 
     var myTowers = getObjectsByPrototype(StructureTower).filter(object => object.my);
     for(var tower of myTowers)
@@ -139,22 +139,14 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
 
 }
 
-function healer(creep, meleeCreeps, rangedCreeps, myFlag)
+function healer(creep, myCreeps, myFlag)
 {
     // Find nearest friendly creep
-    var healableMelees = meleeCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(healableMelees.length > 0)
+    var healableCreeps = myCreeps.filter(i => i.hits < i.hitsMax && i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    if(healableCreeps.length > 0)
     {
-        creep.heal(healableMelees[0]);
-        creep.moveTo(healableMelees[0]);
-        return;
-    }
-
-    var healableRangeds = rangedCreeps.filter(i => i.hits < i.hitsMax).sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(healableRangeds.length > 0)
-    {
-        creep.heal(healableRangeds[0]);
-        creep.moveTo(healableRangeds[0]);
+        creep.heal(healableCreeps[0]);
+        creep.moveTo(healableCreeps[0]);
         return;
     }
 
