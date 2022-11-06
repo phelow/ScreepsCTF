@@ -20,7 +20,7 @@ export function loop() {
     
     myCreeps.forEach(creep => 
     {
-        if(creep.hits < creep.hitsMax * .9)
+        if(creep.hits < creep.hitsMax * .3)
         {
             defensive = true;
         }
