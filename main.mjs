@@ -107,6 +107,23 @@ export function loop() {
         {
             defensive = true;
             console.log("retreating ranged" + enemyIndex); 
+            if(flagDefended)
+            {
+                if(getRange(rangedCreeps[0], enemyCreeps[0]) > 2)
+                {
+                    rangedCreeps[0].moveTo(enemyCreeps[0]);
+                }
+                else
+                {
+                    rangedCreeps[0].moveTo(myFlag);
+                }
+
+                enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
+                rangedCreeps[0].rangedAttack(enemyCreeps[0]);
+                rangedCreeps.shift();
+                continue;
+            }
+
             rangedCreeps[0].moveTo(myFlag);    
             
             enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
