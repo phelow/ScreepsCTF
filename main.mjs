@@ -218,7 +218,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         }
     }
 
-    if(confidence > 0)
+    if(confidence > 30)
     {
         creep.moveTo(enemyFlag);
     }
