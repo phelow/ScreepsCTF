@@ -58,6 +58,15 @@ export function loop() {
         attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));    
         attackCreeps[0].moveTo(myFlag);    
         attackCreeps[0].attack(enemyCreeps[0]);
+        
+        healCreeps.sort((a, b) => getRange(a, attackCreeps[0]) - getRange(b, attackCreeps[0]));
+
+        if(healCreeps.length > 0)
+        {
+            healCreeps[0].moveTo(attackCreeps[0]);
+            healCreeps[0].heal(attackCreeps[0]);
+            healCreeps.shift();
+        }
         attackCreeps.shift();
     }
     else
