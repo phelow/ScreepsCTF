@@ -23,7 +23,7 @@ export function loop() {
         {
             defensive = true;
         }
-    }
+    });
     
     if(!defensive)
     {
