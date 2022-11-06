@@ -133,26 +133,12 @@ export function loop() {
         {
             defensive = true;
             console.log("retreating attack" + enemyIndex); 
-            if(!flagDefended)
-            {
-                attackCreeps[0].moveTo(myFlag);    
+            enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
+            attackCreeps[0].moveTo(enemyCreeps[0]);    
+            attackCreeps[0].attack(enemyCreeps[0]);
+            attackCreeps.shift();
             
-                enemyCreeps.sort((a, b) => getRange(a, attackCreeps[0]) - getRange(b, attackCreeps[0]));  
-                attackCreeps[0].attack(enemyCreeps[0]);
-                attackCreeps.shift();
-            
-                enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
-            }
-            else
-            {
-                enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-                attackCreeps[0].moveTo(enemyCreeps[0]);    
-                attackCreeps[0].attack(enemyCreeps[0]);
-                attackCreeps.shift();
-            
-                enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
-            
-            }
+            enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
         }
         enemyIndex = enemyIndex + 1;
         meleeIndex = meleeIndex + 1;
@@ -279,10 +265,10 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
             if(myCreeps.length > 0)
             {
                 creep.moveTo(myCreeps[0]);
-            }
+            } 
             else
             {
-                creep.moveTo(enemyCreeps[0]);
+                creep.moveTo(myFlag);
             }
         }
     }
