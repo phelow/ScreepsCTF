@@ -332,8 +332,9 @@ function towerProd(tower, enemyCreeps, myCreeps) {
     }
     
     
-    if(tower.energy < 50)
+    if(tower.store[RESOURCE_ENERGY] < 50)
     {
+        console.log("Tower cannot heal")
         return;
     }
 
