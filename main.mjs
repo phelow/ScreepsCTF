@@ -194,14 +194,6 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         return;
     }
 
-    if(enemyCreeps.length > 0)
-    {
-        if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]) && creep.hits == creep.hitsMax)
-        {
-            creep.moveTo(enemyCreeps[0]);
-            return;
-        }
-    }
     var confidence = 0;
     for(var friendlyCreep of myCreeps)
     {
@@ -219,7 +211,16 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     }
 
     if(confidence > 30)
-    {
+    {        
+        if(enemyCreeps.length > 0)
+        {
+            if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]) && creep.hits == creep.hitsMax)
+            {
+                creep.moveTo(enemyCreeps[0]);
+                return;
+            }
+        }
+
         creep.moveTo(enemyFlag);
     }
     else
