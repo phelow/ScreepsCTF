@@ -66,7 +66,7 @@ export function loop() {
     if(defensive)
     {
         var index = 0;
-        while(rangedCreeps.length > index && enemyCreeps.length > index && getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag))
+        while(rangedCreeps.length > index && enemyCreeps.length > index && getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag) + 2)
         {
             console.log("retreating " + index); 
             rangedCreeps[0].moveTo(myFlag);    
