@@ -1,4 +1,4 @@
-﻿import { ATTACK, HEAL, RANGED_ATTACK, ERR_NOT_IN_RANGE } from "game/constants";
+﻿import { ATTACK, HEAL, RANGED_ATTACK, ERR_NOT_IN_RANGE, RESOURCE_ENERGY } from "game/constants";
 import { BodyPart, Flag } from "arena";
 import { Creep, GameObject, StructureTower } from "game/prototypes";
 import { getDirection, getObjectsByPrototype, getRange, getTicks } from "game/utils";
@@ -334,7 +334,7 @@ function towerProd(tower, enemyCreeps, myCreeps) {
     
     if(tower.store[RESOURCE_ENERGY] < 50)
     {
-        console.log("Tower cannot heal")
+        console.log("Tower cannot heal");
         return;
     }
 
