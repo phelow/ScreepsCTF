@@ -14,7 +14,7 @@ export function loop() {
     var attackCreeps = [];
     var rangedCreeps = [];
     var healCreeps = [];
-
+    var defensive = false;
     myCreeps.forEach(creep => {
         if (creep.body.some(i => i.type === ATTACK)) {
             attackCreeps.push(creep)
@@ -43,6 +43,7 @@ export function loop() {
 
             if(creep.hits < creep.hitsMax * .7)
             {
+                defensive = true;
                 if(healCreeps.length > 0 && getRange(healCreeps[0], creep) > 2)
                 {
                     creep.moveTo(healCreeps[0]);
@@ -62,7 +63,7 @@ export function loop() {
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
     rangedCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
     var enemyRangeToFlag = getRange(enemyCreeps[0], myFlag);
-    var defensive = rangedCreeps.length > 0 && enemyCreeps.length > 0 && enemyRangeToFlag < getRange(rangedCreeps[0], myFlag); 
+    defensive = defensive | rangedCreeps.length > 0 && enemyCreeps.length > 0 && enemyRangeToFlag < getRange(rangedCreeps[0], myFlag); 
     if(defensive)
     {
         var index = 0;
@@ -91,7 +92,7 @@ export function loop() {
     }
 
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, healCreeps, defensive));
-    rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps, myFlag));
+    rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps, myFlag. defensive));
     healCreeps.forEach(creep => healer(creep, myCreeps, healCreeps, myFlag, enemyFlag, defensive));
 
     var myTowers = getObjectsByPrototype(StructureTower).filter(object => object.my);
@@ -128,7 +129,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
     }
 }
 
-function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag)
+function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensive)
 {    
     var inRange = creep.findInRange(enemyCreeps, 3).sort((a, b) => a.hits - b.hits);
 
@@ -165,6 +166,12 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag)
             creep.moveTo(myFlag);
         }
     }
+
+    if(defensive)
+    {
+        creep.moveTo(myFlag);
+        return;
+    }    
 
     if(enemyCreeps.length > 0)
     {
