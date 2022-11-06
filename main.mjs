@@ -118,16 +118,16 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
 
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(creep.hits < creep.hitsMax/1.1 && myHealers.length > 0)
-    {
-        creep.moveTo(myHealers[0]);
-        creep.rangedAttack(enemyCreeps[0]);
-        return;
-    }
 
     if(inRange.length > 0)
     {
-        creep.rangedAttack(inRange[0]);        
+        creep.rangedAttack(inRange[0]);   
+        
+        if(getRange(creep, inRange[0]) < 2)
+        {
+            creep.moveTo(myHealers[0]);
+        }
+        
         return;
     }
 
