@@ -15,21 +15,29 @@ export function loop() {
     var rangedCreeps = [];
     var healCreeps = [];
     var defensive = false;
-    
-    var parts = getObjectsByPrototype(BodyPart);
-    for(var part of parts)
-    {
-        myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
-        myCreeps[0].moveTo(part);
-        myCreeps.shift();
-    }
 
-    myCreeps.forEach(creep => {
+    
+    myCreeps.forEach(creep => 
+    {
         if(creep.hits < creep.hitsMax * .9)
         {
             defensive = true;
         }
+    }
+    
+    if(!defensive)
+    {
+        var parts = getObjectsByPrototype(BodyPart);
+        for(var part of parts)
+        {
+            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
+            myCreeps[0].moveTo(part);
+            myCreeps.shift();
+        }
+    }
 
+    myCreeps.forEach(creep => 
+    {
         if (creep.body.some(i => i.type === ATTACK)) {
             attackCreeps.push(creep)
         }
