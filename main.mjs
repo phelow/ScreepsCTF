@@ -5,6 +5,8 @@ import { getDirection, getObjectsByPrototype, getRange, getTicks } from "game/ut
 import { searchPath } from "game/path-finder";
 import { Visual } from "game/visual";
 
+var healCoef = 2.0
+
 export function loop() {
     var enemyFlag = getObjectsByPrototype(Flag).find(object => !object.my);
     var myCreeps = getObjectsByPrototype(Creep).filter(object => object.my);
@@ -34,7 +36,7 @@ export function loop() {
     attackCreeps.sort((a, b) => a.hits - b.hits);
     for(var creep of attackCreeps)
     {
-        if(creep.hits < creep.hitsMax/1.3 && healCreeps.length > 0)
+        if(creep.hits < creep.hitsMax/healCoef && healCreeps.length > 0)
         {
             enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
             healCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
@@ -49,7 +51,7 @@ export function loop() {
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
     attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
     var defensive = attackCreeps.length > 0 && enemyCreeps.length > 0 && getRange(enemyCreeps[0], myFlag) < getRange(attackCreeps[0], myFlag) + 5; 
-    if(defensive && getRange(attackCreeps[0], myFlag) > 0)
+    if(defensive)
     {
         console.log("retreating");
         attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));    
@@ -83,13 +85,6 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
 {
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(creep.hits < creep.hitsMax/1.5 && myHealers.length > 0)
-    {
-        creep.moveTo(myHealers[0]);
-        creep.attack(enemyCreeps[0]);
-        return;
-    }
-
     if(enemyCreeps.length > 0)
     {
         if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]))
@@ -184,14 +179,16 @@ function towerProd(tower, enemyCreeps, myCreeps) {
         tower.attack(target[0])
         return;
     }
-    else if (healTarget.length > 0)
-    {
-        tower.heal(healTarget[0])
-        return;
-    }
+    
     
     if(tower.energy < tower.energyCapacity)
     {
+        return;
+    }
+
+    if (healTarget.length > 0)
+    {
+        tower.heal(healTarget[0])
         return;
     }
 
