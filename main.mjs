@@ -171,6 +171,11 @@ function healer(creep, myCreeps, myFlag, enemyFlag, defensive)
         return;
     }
 
+    if(creep.hits < creep.hitsMax * .7)
+    {
+        creep.moveTo(myFlag);
+    }
+
     if (defensive)
     {
         creep.moveTo(myFlag);
