@@ -16,7 +16,7 @@ export function loop() {
     var healCreeps = [];
     var defensive = false;
     myCreeps.forEach(creep => {
-        if(creep.hits < creep.hitsMax * .8)
+        if(creep.hits < creep.hitsMax * .9)
         {
             defensive = true;
         }
@@ -74,13 +74,14 @@ export function loop() {
     
     }
 
-    var index = 0;
-    while(rangedCreeps.length > index && enemyCreeps.length > index)
+    var enemyIndex = 0;
+    var rangedIndex = 0;
+    while(rangedCreeps.length > rangedIndex && enemyCreeps.length > enemyIndex)
     {
-        if(getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag) + 2)
+        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(rangedCreeps[0], myFlag) + 2)
         {
             defensive = true;
-            console.log("retreating " + index); 
+            console.log("retreating " + enemyIndex); 
             rangedCreeps[0].moveTo(myFlag);    
             
             enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
@@ -89,7 +90,28 @@ export function loop() {
             
             enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
         }
-        index = index + 1;
+        enemyIndex = enemyIndex + 1;
+        rangedIndex = rangedIndex + 1;
+    }
+
+    
+    var meleeIndex = 0;
+    while(attackCreeps.length > meleeIndex && enemyCreeps.length > enemyIndex)
+    {
+        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(attackCreeps[0], myFlag) + 2)
+        {
+            defensive = true;
+            console.log("retreating " + enemyIndex); 
+            attackCreeps[0].moveTo(myFlag);    
+            
+            enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
+            attackCreeps[0].attack(enemyCreeps[0]);
+            rangedCreeps.shift();
+            
+            enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
+        }
+        enemyIndex = enemyIndex + 1;
+        meleeIndex = meleeIndex + 1;
     }
     
     if(!defensive)
