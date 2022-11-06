@@ -264,19 +264,27 @@ function healer(creep, myCreeps, myHealers, myFlag, enemyFlag, defensive)
     {
         creep.moveTo(myFlag);
     }
+
+    if(creep.hits < creep.hitsMax * .7 && validHealers.length > 0)
+    {
+        creep.moveTo(myFlag);
+        return;
+    }
     
     if(healableCreeps.length > 0)
     {
         creep.pull(healableCreeps[0]);
         creep.heal(healableCreeps[0]);
         creep.rangedHeal(healableCreeps[0]);
-        creep.moveTo(healableCreeps[0]);
-        return;
-    }
 
-    if(creep.hits < creep.hitsMax * .7 && validHealers.length > 0)
-    {
-        creep.moveTo(myFlag);
+        if(getRange(creep, healableCreeps[0]) <2)
+        {
+            creep.moveTo(myFlag);        
+        }
+        else
+        {
+            creep.moveTo(healableCreeps[0]);
+        }
         return;
     }
 
