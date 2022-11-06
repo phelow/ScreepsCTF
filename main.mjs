@@ -332,7 +332,7 @@ function towerProd(tower, enemyCreeps, myCreeps) {
     }
     
     
-    if(tower.energy < tower.energyCapacity)
+    if(tower.energy < 50)
     {
         return;
     }
