@@ -161,7 +161,7 @@ function healer(creep, myCreeps, myFlag)
 }
 
 function towerProd(tower, enemyCreeps, myCreeps) {
-    const target = tower.findInRange(enemyCreeps, 5)
+    const target = myCreeps.filter(i => getRange(i, tower) < 5).sort((a, b) => a.hits - b.hits);
     const healTarget = myCreeps.filter(i => getRange(i, tower) < 51 && i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
 
     //TODO: attack enemy creeps
