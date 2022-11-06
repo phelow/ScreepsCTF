@@ -73,12 +73,13 @@ export function loop() {
         enemyRangeToFlag = getRange(enemyCreeps[0], myFlag);
     
     }
-    defensive = defensive | rangedCreeps.length > 0 && enemyCreeps.length > 0 && enemyRangeToFlag < getRange(rangedCreeps[0], myFlag); 
-    if(defensive)
+
+    var index = 0;
+    while(rangedCreeps.length > index && enemyCreeps.length > index)
     {
-        var index = 0;
-        while(rangedCreeps.length > index && enemyCreeps.length > index && getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag) + 2)
+        if(getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag) + 2)
         {
+            defensive = true;
             console.log("retreating " + index); 
             rangedCreeps[0].moveTo(myFlag);    
             
@@ -87,10 +88,11 @@ export function loop() {
             rangedCreeps.shift();
             
             enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
-            index = index + 1;
         }
+        index = index + 1;
     }
-    else
+    
+    if(!defensive)
     {       
         var parts = getObjectsByPrototype(BodyPart);
         for(var part of parts)
