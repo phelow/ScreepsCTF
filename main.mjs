@@ -228,6 +228,7 @@ function healer(creep, myCreeps, myHealers, myFlag, enemyFlag, defensive)
     
     if(healableCreeps.length > 0)
     {
+        creep.pull(healableCreeps[0]);
         creep.heal(healableCreeps[0]);
         creep.rangedHeal(healableCreeps[0]);
         creep.moveTo(healableCreeps[0]);
