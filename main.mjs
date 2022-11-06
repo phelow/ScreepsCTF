@@ -104,9 +104,9 @@ export function loop() {
             console.log("retreating " + enemyIndex); 
             attackCreeps[0].moveTo(myFlag);    
             
-            enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
+            enemyCreeps.sort((a, b) => getRange(a, attackCreeps[0]) - getRange(b, attackCreeps[0]));  
             attackCreeps[0].attack(enemyCreeps[0]);
-            rangedCreeps.shift();
+            attackCreeps.shift();
             
             enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
         }
@@ -122,6 +122,7 @@ export function loop() {
             myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
             myCreeps[0].moveTo(part);
             myCreeps.shift();
+            defensive = true;
         }
     }
 
