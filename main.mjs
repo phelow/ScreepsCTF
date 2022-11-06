@@ -111,6 +111,7 @@ export function loop() {
             {
                 if(getRange(rangedCreeps[0], enemyCreeps[0]) > 2)
                 {
+                    console.log("attacking defensively");
                     rangedCreeps[0].moveTo(enemyCreeps[0]);
                 }
                 else
@@ -185,7 +186,10 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(defensive)
     {
-        creep.moveTo(myFlag);
+        enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
+        creep.moveTo(enemyCreeps[0]);  
+        creep.attack(enemyCreeps[0]);   
+        return;
     }
         
     if(creep.hits < creep.hitsMax && myHealers.length > 0 && getRange(myHealers[0], creep) < 15)
@@ -233,13 +237,16 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
 {    
     var inRange = creep.findInRange(enemyCreeps, 3).sort((a, b) => a.hits - b.hits);
 
-    enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     
     if(defensive)
     {
-        creep.moveTo(myFlag);
+        enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
+        creep.moveTo(enemyCreeps[0]);
+        
     }
+
+    enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
 
     if(inRange.length > 0)
     {
