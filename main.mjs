@@ -65,19 +65,17 @@ export function loop() {
     var defensive = rangedCreeps.length > 0 && enemyCreeps.length > 0 && enemyRangeToFlag < getRange(rangedCreeps[0], myFlag); 
     if(defensive)
     {
-        console.log("retreating"); 
-        rangedCreeps[0].moveTo(myFlag);    
-        rangedCreeps[0].attack(enemyCreeps[0]);
-        
-        healCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));
-
-        if(healCreeps.length > 0)
+        var index = 0;
+        while(rangedCreeps.length > index && enemyCreeps.length > index && getRange(enemyCreeps[index], myFlag) < getRange(rangedCreeps[index], myFlag))
         {
-            healCreeps[0].moveTo(attackCreeps[0]);
-            healCreeps[0].heal(attackCreeps[0]);
-            healCreeps.shift();
+            console.log("retreating " + index); 
+            rangedCreeps[0].moveTo(myFlag);    
+            
+            enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
+            rangedCreeps[0].attack(enemyCreeps[0]);
+            rangedCreeps.shift();
+            index = index + 1;
         }
-        rangedCreeps.shift();
     }
     else
     {       
