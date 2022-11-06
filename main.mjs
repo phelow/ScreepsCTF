@@ -36,7 +36,7 @@ export function loop() {
     attackCreeps.sort((a, b) => a.hits - b.hits);
     for(var creep of attackCreeps)
     {
-        if(creep.hits < creep.hitsMax/healCoef && healCreeps.length > 0)
+        if(creep.hits < creep.hitsMax/healCoef && healCreeps.length > 0 && getRange(attackCreeps[0], myFlag) > 3)
         {
             enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
             healCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
