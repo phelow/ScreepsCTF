@@ -150,13 +150,6 @@ function healer(creep, myCreeps, myFlag)
         return;
     }
 
-    meleeCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(meleeCreeps.length > 0)
-    {
-        creep.moveTo(meleeCreeps[0]);
-        return;
-    }
-
     creep.moveTo(myFlag);
 }
 
