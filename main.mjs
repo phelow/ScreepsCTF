@@ -313,7 +313,7 @@ function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defe
         return;
     }
 
-    meleeCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep))
+    meleeCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag))
     console.log(meleeCreeps[0]);
     creep.moveTo(meleeCreeps[0]);
     
