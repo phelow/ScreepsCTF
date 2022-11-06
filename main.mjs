@@ -103,6 +103,11 @@ export function loop() {
         }
     }
 
+    if(enemyCreeps.length == 0)
+    {
+        defensive = false;
+    }
+
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, healCreeps, defensive));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, attackCreeps, healCreeps, myFlag. defensive));
     healCreeps.forEach(creep => healer(creep, myCreeps, healCreeps, myFlag, enemyFlag, defensive));
