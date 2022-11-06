@@ -116,12 +116,14 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, defensi
         if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]) && creep.hits == creep.hitsMax)
         {
             creep.moveTo(enemyCreeps[0]);
+            return;
         }
     }
     
-    if(creep.hits < creep.hitsMax)
+    if(creep.hits < creep.hitsMax && myHealers.length > 0 && getRange(myHealers[0], creep) < 15)
     {
         creep.moveTo(myHealers[0]);
+        return;
     }
     
     if (defensive)
