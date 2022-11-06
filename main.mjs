@@ -125,10 +125,21 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers)
         
         if(getRange(creep, inRange[0]) < 2)
         {
-            creep.moveTo(myHealers[0]);
+            if(myHealers.length > 0)
+            {
+                creep.moveTo(myHealers[0]);
+            }
         }
         
         return;
+    }
+
+    if(creep.hits < creep.hitsMax)
+    {
+        if(myHealers.length > 0)
+        {
+            creep.moveTo(myHealers[0]);
+        }   
     }
 
     if(enemyCreeps.length > 0)
