@@ -74,6 +74,8 @@ export function loop() {
             enemyCreeps.sort((a, b) => getRange(a, rangedCreeps[0]) - getRange(b, rangedCreeps[0]));  
             rangedCreeps[0].attack(enemyCreeps[0]);
             rangedCreeps.shift();
+            
+            enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag)); 
             index = index + 1;
         }
     }
