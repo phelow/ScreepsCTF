@@ -313,7 +313,6 @@ function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defe
     if(creep.hits < creep.hitsMax * .7 && validHealers.length > 0)
     {
         creep.moveTo(myFlag);
-        return;
     }
     
     if(healableCreeps.length > 0)
