@@ -155,6 +155,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);  
         creep.attack(enemyCreeps[0]);   
+        console.log("melee attacking closest enemy to the flag.")
         return;
     }
     else if (defensive)
@@ -171,8 +172,9 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         return;
     }
 
-    if(confidence > 80 && creep.hits * 1.2 > creep.hitsMax)
+    if(confidence > 120 && creep.hits * 1.2 > creep.hitsMax)
     {        
+        console.log("offensive melee")
         if(enemyCreeps.length > 0)
         {
             if(ERR_NOT_IN_RANGE == creep.attack(enemyCreeps[0]) && creep.hits == creep.hitsMax)
