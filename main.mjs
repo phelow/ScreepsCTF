@@ -224,14 +224,15 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
 function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensive)
 {    
     var inRange = creep.findInRange(enemyCreeps, 3).sort((a, b) => a.hits - b.hits);
-
+    
+    myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     if(inRange.length > 0)
     {
         creep.rangedAttack(inRange[0]);   
         
         if(getRange(creep, inRange[0]) < 3)
         {
-            if(myHealers.length > 0)
+            if(myHealers.length > 0 && getRange(myHealers[0], creep) > 2)
             {
                 creep.moveTo(myHealers[0]);
             }
@@ -243,9 +244,6 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
         
         return;
     }
-
-
-    myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     
     var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
     if(defensive && confidence > 80 && enemyCreeps.length > 0)
