@@ -202,9 +202,9 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
     for(var friendlyCreep of myCreeps)
     {
         var creepRange = getRange(friendlyCreep, creep);
-        if(creepRange < 40)
+        if(creepRange < 30)
         {
-            confidence = confidence + 40 - creepRange; 
+            confidence = confidence + 120 - creepRange; 
         }
     }
 
@@ -216,9 +216,9 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
     for(var enemyCreep of enemyCreeps)
     {
         var creepRange = getRange(enemyCreep, creep);
-        if(creepRange < 40)
+        if(creepRange < 30)
         {
-            confidence = confidence - 40 + creepRange;
+            confidence = confidence - 120 + creepRange;
         }
     }
 
