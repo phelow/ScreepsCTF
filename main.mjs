@@ -207,6 +207,11 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
         confidence = confidence + 200;
     }
 
+    if(getTicks() > 1900)
+    {
+        confidence = confidence + 1000;
+    }
+
     for(var enemyCreep of enemyCreeps)
     {
         var creepRange = getRange(enemyCreep, creep);
