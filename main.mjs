@@ -25,6 +25,7 @@ export function loop() {
             defensive = true;
         }
     });
+    var enemyCreeps = getObjectsByPrototype(Creep).filter(object => !object.my);
     
     if(!defensive)
     {
@@ -55,7 +56,6 @@ export function loop() {
         }
     });
     
-    var enemyCreeps = getObjectsByPrototype(Creep).filter(object => !object.my);
 
     // get closest creep to the flag
     var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
