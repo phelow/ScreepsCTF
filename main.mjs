@@ -208,7 +208,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
     return confidence;
 }
 
-function rangedAttacker(creep, enemyCreeps, myCreeps, meleeCreeps, myHealers, myFlag, defensive)
+function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensive)
 {    
     var inRange = creep.findInRange(enemyCreeps, 3).sort((a, b) => a.hits - b.hits);
 
