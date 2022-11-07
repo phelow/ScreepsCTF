@@ -178,7 +178,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         }
     }
 
-    if(confidence > 80)
+    if(confidence > 80 && creep.hits * 1.2 > creep.hitsMax)
     {        
         if(enemyCreeps.length > 0)
         {
@@ -194,6 +194,10 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     else
     {
         creep.moveTo(myFlag);
+        if(enemyCreeps.length > 0)
+        {
+            creep.attack(enemyCreeps[0]);
+        }
     }
 }
 
