@@ -158,7 +158,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         return;
     }
 
-    var confidence = calculateConfidence(myCreeps, enemyCreeps);
+    var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
 
     if(confidence > 80 && creep.hits * 1.2 > creep.hitsMax)
     {        
@@ -183,7 +183,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     }
 }
 
-function calculateConfidence(myCreeps, enemyCreeps)
+function calculateConfidence(creep, myCreeps, enemyCreeps)
 {
     for(var friendlyCreep of myCreeps)
     {
@@ -253,7 +253,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
         }
     }
 
-    var confidence = calculateConfidence(myCreeps, enemyCreeps);
+    var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
 
     if(confidence > 80 && enemyCreeps.length > 0)
     {
