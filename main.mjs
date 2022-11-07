@@ -185,6 +185,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
 
 function calculateConfidence(creep, myCreeps, enemyCreeps)
 {
+    var confidence = 0;
     for(var friendlyCreep of myCreeps)
     {
         var creepRange = getRange(friendlyCreep, creep);
