@@ -150,7 +150,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
-    if(confidence > 80)
+    if(confidence > 80 && enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);  
@@ -158,7 +158,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         console.log("melee attacking closest enemy to the flag.")
         return;
     }
-    else if (defensive)
+    else if (defensive&& enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
         creep.moveTo(myFlag);  
