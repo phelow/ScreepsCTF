@@ -35,7 +35,7 @@ export function loop() {
         
             var confidence = calculateConfidence(myCreeps[0], myCreeps, enemyCreeps)
             myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));
-            if(confidence > 80)
+            if(confidence > 10)
             {
                 myCreeps[0].moveTo(part);
                 myCreeps.shift();
