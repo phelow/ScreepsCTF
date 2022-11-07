@@ -17,21 +17,12 @@ export function loop() {
     var defensive = false;
     var flagDefended = false;
 
-    
-    myCreeps.forEach(creep => 
-    {
-        if(creep.hits < creep.hitsMax * .3)
-        {
-            defensive = true;
-        }
-    });
-    
     if(!defensive)
     {
         var parts = getObjectsByPrototype(BodyPart);
         for(var part of parts)
         {
-            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));    
+            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));   
             myCreeps[0].moveTo(part);
             myCreeps.shift();
         }
