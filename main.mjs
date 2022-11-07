@@ -145,7 +145,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
-    if(defensive &&& confidence > 80)
+    if(defensive && confidence > 80)
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);  
