@@ -233,6 +233,8 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
     }
     else
     {
+        enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+        creep.rangedAttack(enemyCreeps[0]);
         creep.moveTo(myFlag);
         return;
     }
