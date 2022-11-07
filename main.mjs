@@ -17,6 +17,15 @@ export function loop() {
     var defensive = false;
     var flagDefended = false;
 
+    
+    myCreeps.forEach(creep => 
+    {
+        if(creep.hits < creep.hitsMax * .7)
+        {
+            defensive = true;
+        }
+    });
+    
     if(!defensive)
     {
         var parts = getObjectsByPrototype(BodyPart);
@@ -45,40 +54,6 @@ export function loop() {
 
     // get closest creep to the flag
     var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
-
-    
-    for(var creep of attackCreeps)
-    {
-        if(creep.hits < creep.hitsMax/healCoef && getRange(attackCreeps[0], myFlag) > 3)
-        {
-            enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-
-            if(creep.hits < creep.hitsMax * .7)
-            {
-                defensive = true;
-                creep.moveTo(myFlag);
-            }
-            creep.attack(enemyCreeps[0]);
-            attackCreeps.shift();
-        }
-
-    }
-
-    for(var creep of rangedCreeps)
-    {
-        if(creep.hits < creep.hitsMax/healCoef && getRange(rangedCreeps[0], myFlag) > 3)
-        {
-            enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-
-            if(creep.hits < creep.hitsMax * .7)
-            {
-                defensive = true;
-                creep.moveTo(myFlag);
-            }
-            creep.rangedAttack(enemyCreeps[0]);
-            rangedCreeps.shift();
-        }
-    }
 
     
     enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
