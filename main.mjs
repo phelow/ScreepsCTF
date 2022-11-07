@@ -273,11 +273,6 @@ function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defe
     // Find nearest friendly creep
     var healableCreeps = myCreeps.filter(i => i.hits < i.hitsMax && i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var validHealers = myHealers.filter(i => i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    
-    if (defensive)
-    {
-        creep.moveTo(myFlag);
-    }
 
     if(creep.hits < creep.hitsMax * .7 && validHealers.length > 0)
     {
