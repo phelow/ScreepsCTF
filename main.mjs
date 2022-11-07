@@ -31,9 +31,14 @@ export function loop() {
         var parts = getObjectsByPrototype(BodyPart);
         for(var part of parts)
         {
-            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));   
-            myCreeps[0].moveTo(part);
-            myCreeps.shift();
+        
+            var confidence = calculateConfidence(myCreeps[0], myCreeps, enemyCreeps)
+            myCreeps.sort((a, b) => getRange(a, part) - getRange(b, part));
+            if(confidence > 40)
+            {
+                myCreeps[0].moveTo(part);
+                myCreeps.shift();
+            }
         }
     }
 
