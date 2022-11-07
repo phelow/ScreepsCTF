@@ -158,25 +158,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         return;
     }
 
-    var confidence = 0;
-    for(var friendlyCreep of myCreeps)
-    {
-        var creepRange = getRange(friendlyCreep, creep);
-        if(creepRange < 30)
-        {
-            confidence = confidence + 30 - creepRange; 
-        }
-    }
-
-    
-    for(var enemyCreep of enemyCreeps)
-    {
-        var creepRange = getRange(enemyCreep, creep);
-        if(creepRange < 30)
-        {
-            confidence = confidence - 30 + creepRange;
-        }
-    }
+    var confidence = calculateConfidence(myCreeps, enemyCreeps);
 
     if(confidence > 80 && creep.hits * 1.2 > creep.hitsMax)
     {        
@@ -201,6 +183,30 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     }
 }
 
+function calculateConfidence(myCreeps, enemyCreeps)
+{
+    for(var friendlyCreep of myCreeps)
+    {
+        var creepRange = getRange(friendlyCreep, creep);
+        if(creepRange < 30)
+        {
+            confidence = confidence + 30 - creepRange; 
+        }
+    }
+
+    
+    for(var enemyCreep of enemyCreeps)
+    {
+        var creepRange = getRange(enemyCreep, creep);
+        if(creepRange < 30)
+        {
+            confidence = confidence - 30 + creepRange;
+        }
+    }
+
+    return confidence;
+}
+
 function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensive)
 {    
     var inRange = creep.findInRange(enemyCreeps, 3).sort((a, b) => a.hits - b.hits);
@@ -211,7 +217,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);
-        
+        console.log("moving to enemy creep closest to flag");
     }
 
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
@@ -247,16 +253,13 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, defensi
         }
     }
 
-    if(defensive)
-    {
-        return;
-    }    
+    var confidence = calculateConfidence(myCreeps, enemyCreeps);
 
-    if(enemyCreeps.length > 0)
+    if(confidence > 80 && enemyCreeps.length > 0)
     {
         if(ERR_NOT_IN_RANGE == creep.rangedAttack(enemyCreeps[0]))
         {
-            myCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+            myCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
             if(myCreeps.length > 0)
             {
                 creep.moveTo(myCreeps[0]);
