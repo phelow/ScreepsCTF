@@ -144,12 +144,20 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
 {
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-    if(defensive)
+    var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
+    if(defensive &&& confidence > 80)
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);  
         creep.attack(enemyCreeps[0]);   
         return;
+    }
+    else if (defensive)
+    {
+        enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+        creep.moveTo(myFlag);  
+        creep.attack(enemyCreeps[0]);   
+        return;    
     }
         
     if(creep.hits < creep.hitsMax && myHealers.length > 0 && getRange(myHealers[0], creep) < 15)
@@ -157,8 +165,6 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         creep.moveTo(myHealers[0]);
         return;
     }
-
-    var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
 
     if(confidence > 80 && creep.hits * 1.2 > creep.hitsMax)
     {        
