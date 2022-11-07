@@ -204,7 +204,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
 
     if(enemyCreeps.length == 0)
     {
-        confidence = confidence + 100;
+        confidence = confidence + 200;
     }
 
     for(var enemyCreep of enemyCreeps)
