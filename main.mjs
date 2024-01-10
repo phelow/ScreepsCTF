@@ -198,7 +198,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, enemyFl
 function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defensive)
 {
     // Find nearest friendly creep
-    var healableCreeps = myCreeps.filter(i => i.hits < i.hitsMax && i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
+    var healableCreeps = myCreeps.filter(i => i.hits < i.hitsMax * .8 && i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var validHealers = myHealers.filter(i => i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
 
     if(creep.hits < creep.hitsMax * .9 && validHealers.length > 0)
