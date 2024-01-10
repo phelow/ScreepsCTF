@@ -59,34 +59,6 @@ export function loop() {
     var myFlag = getObjectsByPrototype(Flag).find(object => object.my);
 
     
-    enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));  
-    rangedCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
-
-    var enemyIndex = 0;
-    var rangedIndex = 0;
-    while(rangedCreeps.length > rangedIndex && enemyCreeps.length > enemyIndex)
-    {
-        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(rangedCreeps[0], myFlag) + 1)
-        {
-            defensive = true;
-        }
-        rangedIndex++;
-    }
-
-    
-    var meleeIndex = 0;
-    attackCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
-    while(attackCreeps.length > meleeIndex && enemyCreeps.length > enemyIndex)
-    {
-        if(getRange(enemyCreeps[enemyIndex], myFlag) < getRange(attackCreeps[0], myFlag) + 1)
-        {
-            defensive = true;
-        }
-
-        meleeIndex++;
-    }
-
-
     attackCreeps.forEach(creep => meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, healCreeps, myCreeps, defensive));
     rangedCreeps.forEach(creep => rangedAttacker(creep, enemyCreeps, myCreeps, healCreeps, myFlag, enemyFlag, defensive));
     healCreeps.forEach(creep => healer(creep, myCreeps, attackCreeps, healCreeps, myFlag, enemyFlag, defensive));
@@ -103,7 +75,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
     enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     myHealers.sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
-    if(!defensive && confidence > 120 && enemyCreeps.length > 0)
+    if(confidence > 120 && enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
         creep.moveTo(enemyCreeps[0]);  
@@ -111,7 +83,7 @@ function meleeAttacker(creep, enemyCreeps, enemyFlag, myFlag, myHealers, myCreep
         console.log("melee attacking closest enemy.")
         return;
     }
-    else if (defensive&& enemyCreeps.length > 0)
+    else if (enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);  
@@ -142,7 +114,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
         var creepRange = getRange(friendlyCreep, creep);
         if(creepRange < 30)
         {
-            confidence = confidence + 120 - creepRange; 
+            confidence = confidence + 300/creepRange; 
         }
     }
 
@@ -177,7 +149,7 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, enemyFl
     }
 
     var confidence = calculateConfidence(creep, myCreeps, enemyCreeps);
-    if(!defensive && confidence > 80 && enemyCreeps.length > 0)
+    if(confidence > 80 && enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);
