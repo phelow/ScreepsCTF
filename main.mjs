@@ -151,7 +151,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps)
         confidence = confidence + 200;
     }
 
-    if(getTicks() > 1850)
+    if(getTicks() > 1650)
     {
         confidence = confidence + 10000;
     }
@@ -201,7 +201,7 @@ function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defe
     var healableCreeps = myCreeps.filter(i => i.hits < i.hitsMax && i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
     var validHealers = myHealers.filter(i => i != creep).sort((a, b) => getRange(a, creep) - getRange(b, creep));
 
-    if(creep.hits < creep.hitsMax * .7 && validHealers.length > 0)
+    if(creep.hits < creep.hitsMax * .9 && validHealers.length > 0)
     {
         creep.moveTo(myFlag);
     }
