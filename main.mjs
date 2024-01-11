@@ -123,7 +123,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps, myFlag)
 
     if(getTicks() > 1650)
     {
-        confidence = confidence + 10000;
+        confidence = confidence + 1000000;
     }
 
     for(var enemyCreep of enemyCreeps)
@@ -131,11 +131,11 @@ function calculateConfidence(creep, myCreeps, enemyCreeps, myFlag)
         var creepRange = getRange(enemyCreep, creep);
         if(creepRange < 30 && creepRange > 0)
         {
-            confidence = confidence - 1100000/(creepRange*creepRange);
+            confidence = confidence - 1500000/(creepRange*creepRange);
         }
     }
 
-    return confidence - (creep.hitsMax * 1000000 * creep.hitsMax) / (creep.hits*creep.hits);
+    return confidence - 1000000 * (creep.hitsMax * creep.hitsMax) / (creep.hits*creep.hits);
 }
 
 function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, enemyFlag, defensive)
@@ -150,15 +150,15 @@ function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, enemyFl
     if(confidence > 0 && enemyCreeps.length > 0)
     {
         enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
-        if(getRange(enemyCreeps[0], creep) < 2)
+        if(getRange(enemyCreeps[0], creep) < 3)
         {
             creep.rangedAttack(enemyCreeps[0]);
             creep.moveTo(myFlag);
+            return;
         }
 
-        enemyCreeps.sort((a, b) => getRange(a, myFlag) - getRange(b, myFlag));
         creep.moveTo(enemyCreeps[0]);
-        enemyCreeps.sort((a, b) => getRange(a, creep) - getRange(b, creep));
+        
         creep.rangedAttack(enemyCreeps[0]);
         console.log("moving to enemy creep closest to flag");
         return;
@@ -207,17 +207,10 @@ function healer(creep, myCreeps, meleeCreeps, myHealers, myFlag, enemyFlag, defe
 }
 
 function towerProd(tower, enemyCreeps, myCreeps) {
-    const target = enemyCreeps.filter(i => getRange(i, tower) < 5).sort((a, b) => a.hits - b.hits);
+    const target = enemyCreeps.filter(i => getRange(i, tower) < 51).sort((a, b) => a.hits - b.hits);
     const healTarget = myCreeps.filter(i => getRange(i, tower) < 51 && i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
 
     //TODO: attack enemy creeps
-
-    if (target.length > 0) 
-    {
-        tower.attack(target[0])
-        return;
-    }
-    
     
     if(tower.store[RESOURCE_ENERGY] < 50)
     {
@@ -240,4 +233,12 @@ function towerProd(tower, enemyCreeps, myCreeps) {
         tower.heal(distanceHealTarget[0])
         return;
     }
+    
+
+    if (target.length > 0) 
+    {
+        tower.attack(target[0])
+        return;
+    }
+    
 }
