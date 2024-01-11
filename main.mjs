@@ -135,7 +135,7 @@ function calculateConfidence(creep, myCreeps, enemyCreeps, myFlag)
         }
     }
 
-    return confidence - 1000000 * (creep.hitsMax * creep.hitsMax) / (creep.hits*creep.hits);
+    return confidence - 1500000 * (creep.hitsMax * creep.hitsMax) / (creep.hits*creep.hits);
 }
 
 function rangedAttacker(creep, enemyCreeps, myCreeps, myHealers, myFlag, enemyFlag, defensive)
