@@ -211,12 +211,6 @@ function towerProd(tower, enemyCreeps, myCreeps) {
     const healTarget = myCreeps.filter(i => getRange(i, tower) < 51 && i.hits < i.hitsMax).sort((a, b) => a.hits - b.hits)
 
     //TODO: attack enemy creeps
-    
-    if(tower.store[RESOURCE_ENERGY] < 50)
-    {
-        console.log("Tower cannot heal");
-        return;
-    }
 
     if (healTarget.length > 0)
     {
